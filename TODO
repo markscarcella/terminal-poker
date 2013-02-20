@@ -1,0 +1,4 @@
+* Start new game from client side (not server)
+* Don't show cards if everyone folds
+* Check logic
+* Easier way to select N players
