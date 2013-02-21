@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from copy import deepcopy
 from card import card
 
 single = 0
@@ -12,6 +13,17 @@ fullHouse = 6
 fourKind = 7
 straightFlush = 8
 order = ['A','K','Q','J','T','9','8','7','6','5','4','3','2']
+handType = ["single",
+            "pair",
+            "twoPair",
+            "threeKind",
+            "straight",
+            "flush",
+            "fullHouse",
+            "fourKind",
+            "straightFlush",
+            ]
+
 
 def cardOrder(c1,c2):
     if order.index(c1[0]) > order.index(c2[0]):
@@ -148,6 +160,8 @@ def findBestHand(pokerCards):
     tmpWinHand = combs[0]
     for i in range(1,len(combs)):
         tmpWinHand = compareHands(tmpWinHand, combs[i])
+        if tmpWinHand == None:
+            tmpWinHand = combs[i]
     return tmpWinHand
 
 def convertHand(pokerHand):
@@ -169,10 +183,14 @@ def pokerWin(cards1, cards2):
     
 
 if __name__=="__main__":
-    cards1 = [card('K','D'),card('K','S'),card('J','C'),card('T','C'),card('6','C'),card('4','S'),card('3','C')]
-    cards2 = [card('A','S'),card('K','S'),card('T','C'),card('7','C'),card('6','C'),card('4','S'),card('3','C')]
+    cards1 = [card('4','D'),card('K','S'),card('4','C'),card('T','C'),card('6','C'),card('4','S'),card('3','C')]
+    cards2 = [card('A','C'),card('K','C'),card('4','C'),card('T','C'),card('6','C'),card('4','S'),card('3','C')]
 
     #['KD', 'KS', 'JC', 'TC', '6C', '4S', '3C'] ['AS', 'KS', 'TC', '7C', '6C', '4S', '3C']
 
-
+    print comb(cards1, 5)
+    
+    print handType[classify(deepcopy(cards1))[0]], findBestHand(deepcopy(cards1))
+    print handType[classify(findBestHand(deepcopy(cards2)))[0]], findBestHand(deepcopy(cards2))
+    
     print pokerWin(cards1, cards2)
