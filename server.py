@@ -227,7 +227,8 @@ class pkrServer:
             for p in self.playerList:
                 sendStr += p.getName()+","
                 for c in p.getCards():
-                    if not finishRound:
+                    # Players should only see there own cards if the round isn't finished or there was only one player left in the game
+                    if (not finishRound) or (self.nFinalPlayers == 1):
                         if p.getName() == plyr.getName():
                             sendStr += str(c)
                         else:
@@ -276,6 +277,7 @@ class pkrServer:
         #    return
         # Now compare best hands
         #Exit
+        self.nFinalPlayers = len(self.activePlayers)
         while len(self.activePlayers) > 1:
             c1 = self.activePlayers[0].getCards()+self.tableCards
             c2 = self.activePlayers[1].getCards()+self.tableCards
